@@ -1,0 +1,14 @@
+{
+  "name": "patchthat",
+  "version": "1.0.0",
+  "description": "Scanner to check for out-of-date services and programs.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Seth Brock, Mason Perry, Ethan Spilker",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^32.1.2"
+  }
+}
