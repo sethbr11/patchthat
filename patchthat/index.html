@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Scanner</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Running Services</h1>
+      <button id="scanBtn" class="btn btn-primary mb-3">Scan Services</button>
+      <pre id="servicesOutput" class="bg-light p-3"></pre>
+    </div>
+
+    <script>
+      const scanBtn = document.getElementById("scanBtn");
+      const servicesOutput = document.getElementById("servicesOutput");
+
+      scanBtn.addEventListener("click", async () => {
+        const services = await window.electronAPI.getServices();
+        servicesOutput.textContent = services;
+      });
+    </script>
+  </body>
+</html>
