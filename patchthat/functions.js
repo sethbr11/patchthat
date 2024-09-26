@@ -1,3 +1,7 @@
+/*
+Function: getOSCommand
+Returns the appropriate command to list services based on the current operating system.
+*/
 function getOSCommand() {
   const os = require("os");
   const platform = os.platform();
@@ -12,6 +16,7 @@ function getOSCommand() {
   }
 }
 
+// Export the getOSCommand function so it can be used in other files (main.js)
 module.exports = {
   getOSCommand,
 };

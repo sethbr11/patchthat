@@ -17,6 +17,10 @@
     </div>
 
     <script>
+      // This script is for running the getServices function defined in main.js and
+      // exposed to the renderer process via the preload.js script. It will run when
+      // the scanBtn button is clicked and display the output in the servicesOutput
+      // pre element.
       const scanBtn = document.getElementById("scanBtn");
       const servicesOutput = document.getElementById("servicesOutput");
 

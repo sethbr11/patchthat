@@ -1,10 +1,12 @@
+/* 
+Preload.js is a script that runs in the renderer process and has access to the Electron API. It is used to
+expose specific parts of the Electron API to the renderer process in a controlled manner. This can help
+improve security by limiting the access of the renderer process to the Electron API. 
+*/
+// Imports
 const { contextBridge, ipcRenderer } = require("electron");
 
-// Exposes a new API in the global window object of the renderer process under the name electronAPI. This
-// allows the renderer process to access this API without directly exposing the entire Electron API, which
-// can help improve security. When the code uses contextBridge.exposeInMainWorld("electronAPI", {...}), it
-// creates an object called electronAPI within the window object. This means you can access it in your
-// renderer code using window.electronAPI.
+// Expose the getServices function to the renderer process, which is defined in the main process (main.js)
 contextBridge.exposeInMainWorld("electronAPI", {
   getServices: () => ipcRenderer.invoke("get-services"),
 });
