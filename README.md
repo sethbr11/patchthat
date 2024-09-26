@@ -34,7 +34,7 @@ For installation via cloning the repository, follow the steps below:
 2. In your terminal, type `git clone https://github.com/sethbr11/patchthat.git .` (don't forget the "."; this tells git to not create another folder within the folder you already created).
 3. Go into the project with `cd patchthat/patchthat` (the first patchthat folder contains the project and docs).
 4. Install [Node.js](https://nodejs.org/en/download/package-manager) on the computer if not already installed.
-5. Run ``npm install` to install dependencies for the project.
+5. Run `npm install` to install dependencies for the project.
 6. Run the program with `npm run start`, typed in the terminal.
 
 ## Usage
