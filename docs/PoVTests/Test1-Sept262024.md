@@ -29,4 +29,9 @@ Steps followed for the test:
 Steps followed for the test:
 
 1. Run the app with `npm run start`.
+
+   ![Starting up the app on Ubuntu Linux](../../resources/docImages/PoVTest1-Ubuntu-1.png "Startup on Ubuntu Linux")
+
 2. Press "Scan Services"
+
+   ![Running services scanner on Ubuntu Linux](../../resources/docImages/PoVTest1-Ubuntu-2.gif "Scan on Ubuntu Linux")
