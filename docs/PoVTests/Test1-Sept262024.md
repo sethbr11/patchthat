@@ -24,7 +24,7 @@ Steps followed for the test:
 
    ![Running services scanner on Windows](../../resources/docImages/PoVTest1-Windows-2.gif "Scan on Windows")
 
-## Linux (Ubuntu) (THIS TEST HAS NOT BEEN COMPLETED YET)
+## Linux (Ubuntu)
 
 Steps followed for the test:
 
