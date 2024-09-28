@@ -33,9 +33,11 @@ For installation via cloning the repository, follow the steps below:
 1. Create a folder in the location you would like to install the project.
 2. In your terminal, type `git clone https://github.com/sethbr11/patchthat.git .` (don't forget the "."; this tells git to not create another folder within the folder you already created).
 3. Go into the project with `cd patchthat/patchthat` (the first patchthat folder contains the project and docs).
-4. Install [Node.js](https://nodejs.org/en/download/package-manager) on the computer if not already installed.
-5. Run ``npm install` to install dependencies for the project.
+4. Install [Node.js](https://nodejs.org/en/download/package-manager) on the computer if not already installed. On Linux, you can run `sudo apt get npm`
+5. Run `npm install` to install dependencies for the project.
 6. Run the program with `npm run start`, typed in the terminal.
+    - If you are trying to run on Linux and are getting errors, you may need to update permissions from chrome-sandbox as part of your electron dependencies.This can be done by running `sudo chown root:root /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox` followed by `sudo chmod 4755 /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox` (replacing "..." with your specific path). You can then check that it worked with `ls -l /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox`.
+
 
 ## Usage
 
