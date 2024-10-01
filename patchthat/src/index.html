@@ -21,12 +21,13 @@
       // exposed to the renderer process via the preload.js script. It will run when
       // the scanBtn button is clicked and display the output in the servicesOutput
       // pre element.
-      const scanBtn = document.getElementById("scanBtn");
-      const servicesOutput = document.getElementById("servicesOutput");
-
-      scanBtn.addEventListener("click", async () => {
-        const services = await window.electronAPI.getServices();
-        servicesOutput.textContent = services;
+      document.getElementById("scanBtn").addEventListener("click", async () => {
+        try {
+          const services = await window.electronAPI.getServices();
+          servicesOutput.textContent = services;
+        } catch (error) {
+          servicesOutput.textContent = `Error fetching services: ${error}`;
+        }
       });
     </script>
   </body>

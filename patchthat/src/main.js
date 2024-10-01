@@ -7,7 +7,7 @@ main window and listens for IPC events from the renderer process.
 const { app, BrowserWindow, ipcMain } = require("electron");
 const { exec } = require("child_process");
 const path = require("path");
-const { getOSCommand } = require("./functions"); // Our custom function to get the OS command
+const { getOSCommand } = require("../scripts/functions"); // Our custom function to get the OS command
 
 // Create the main window for the application
 function createWindow() {
@@ -25,7 +25,7 @@ function createWindow() {
   win.webContents.openDevTools();
 
   // Load the index.html file as the main window content
-  win.loadFile("index.html");
+  win.loadFile("src/index.html");
 }
 
 // Handle the get-services IPC event. This is run when the button is clicked in index.html
@@ -33,12 +33,21 @@ ipcMain.handle("get-services", async () => {
   const command = getOSCommand(); // Get the command for the current OS
 
   // Run the command and return the output
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) reject(stderr);
-      resolve(stdout);
+  try {
+    const stdout = await new Promise((resolve, reject) => {
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          reject(stderr); // Reject with error output
+        } else {
+          resolve(stdout); // Resolve with standard output
+        }
+      });
     });
-  });
+    return stdout; // Return the output to the renderer process
+  } catch (error) {
+    console.error("Error executing command:", error);
+    throw new Error(error); // Throw error for handling in the renderer process
+  }
 });
 
 // Create the main window when the app is ready
