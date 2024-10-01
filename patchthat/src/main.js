@@ -21,9 +21,6 @@ function createWindow() {
     },
   });
 
-  // Open the DevTools on start
-  win.webContents.openDevTools();
-
   // Load the index.html file as the main window content
   win.loadFile("src/index.html");
 }

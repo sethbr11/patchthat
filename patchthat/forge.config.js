@@ -9,6 +9,7 @@ const osUsed = process.platform;
 const iosConfig =
   osUsed === "darwin"
     ? {
+        // Sign the macOS app
         osxSign: {
           identity: settings.apple.identity,
           "hardened-runtime": true,
@@ -19,10 +20,11 @@ const iosConfig =
           info: "settings/entitlements/Info.mac.plist",
           "pre-embed-provisioning-profile": false,
         },
+        // // Notarize the macOS app
         // osxNotarize: {
         //   tool: "notarytool",
-        //   appleId: settings.apple.appleId,
-        //   appleIdPassword: settings.apple.appleIdPassword,
+        //   appleId: settings.apple.id,
+        //   appleIdPassword: settings.apple.appPassword,
         //   teamId: settings.osx.teamId,
         // },
       }
@@ -53,6 +55,7 @@ module.exports = {
   ],
   publishers: [
     {
+      // Publish to GitHub
       name: "@electron-forge/publisher-github",
       config: {
         repository: {
