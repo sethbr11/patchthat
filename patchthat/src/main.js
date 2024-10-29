@@ -7,7 +7,7 @@ main window and listens for IPC events from the renderer process.
 const { app, BrowserWindow, ipcMain } = require("electron");
 const { exec } = require("child_process");
 const path = require("path");
-const { getOSCommand } = require("../scripts/functions"); // Our custom function to get the OS command
+const { getOSCommand, parseCommandOutput } = require("../scripts/functions");
 
 // Create the main window for the application
 function createWindow() {
@@ -34,16 +34,19 @@ ipcMain.handle("get-services", async () => {
     const stdout = await new Promise((resolve, reject) => {
       exec(command, (error, stdout, stderr) => {
         if (error) {
-          reject(stderr); // Reject with error output
+          reject(stderr);
         } else {
-          resolve(stdout); // Resolve with standard output
+          resolve(stdout);
         }
       });
     });
-    return stdout; // Return the output to the renderer process
+
+    // Parse the output based on the OS
+    const services = parseCommandOutput(stdout);
+    return services;
   } catch (error) {
     console.error("Error executing command:", error);
-    throw new Error(error); // Throw error for handling in the renderer process
+    throw new Error(error);
   }
 });
 

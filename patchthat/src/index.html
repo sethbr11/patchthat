@@ -13,22 +13,14 @@
     <div class="container mt-5">
       <h1>Running Services</h1>
       <button id="scanBtn" class="btn btn-primary mb-3">Scan Services</button>
-      <pre id="servicesOutput" class="bg-light p-3"></pre>
+      <table id="servicesTable" class="table table-striped">
+        <thead>
+          <tr></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
 
-    <script>
-      // This script is for running the getServices function defined in main.js and
-      // exposed to the renderer process via the preload.js script. It will run when
-      // the scanBtn button is clicked and display the output in the servicesOutput
-      // pre element.
-      document.getElementById("scanBtn").addEventListener("click", async () => {
-        try {
-          const services = await window.electronAPI.getServices();
-          servicesOutput.textContent = services;
-        } catch (error) {
-          servicesOutput.textContent = `Error fetching services: ${error}`;
-        }
-      });
-    </script>
+    <script src="renderer.js"></script>
   </body>
 </html>
