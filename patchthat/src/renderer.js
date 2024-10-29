@@ -1,9 +1,9 @@
-// renderer.js
 window.addEventListener("DOMContentLoaded", () => {
   const scanBtn = document.getElementById("scanBtn");
   const tableBody = document.querySelector("#servicesTable tbody");
   const tableHead = document.querySelector("#servicesTable thead tr");
 
+  // When the button is pressed to scan the system services, populate the table
   scanBtn.addEventListener("click", async () => {
     try {
       // Fetch the JSON string from the main process and parse it
@@ -33,6 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
         });
         tableBody.appendChild(row);
       });
+      // On error, display an error message in the table
     } catch (error) {
       console.error("Error fetching services:", error);
       const errorRow = document.createElement("tr");

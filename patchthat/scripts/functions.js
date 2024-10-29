@@ -1,5 +1,3 @@
-const { parse } = require("path");
-
 /*
 Function: getOSCommand
 Returns the appropriate command to list services based on the current operating system.
@@ -18,6 +16,10 @@ function getOSCommand() {
   }
 }
 
+/*
+Function: parseCommandOutput
+Parses the output of the command in JSON based on the current operating system.
+*/
 function parseCommandOutput(output) {
   const os = require("os");
   const platform = os.platform();
