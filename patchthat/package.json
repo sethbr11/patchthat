@@ -1,6 +1,6 @@
 {
   "name": "patchthat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Scanner to check for out-of-date services and programs.",
   "main": "src/main.js",
   "scripts": {
