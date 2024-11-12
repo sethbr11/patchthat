@@ -1,9 +1,13 @@
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const os = require("os");
+
 /*
 Function: getOSCommand
 Returns the appropriate command to list services based on the current operating system.
 */
 function getOSCommand() {
-  const os = require("os");
   const platform = os.platform();
 
   if (platform === "win32") {
@@ -41,10 +45,12 @@ function parseCommandOutput(output) {
   } else if (platform === "darwin") {
     parsedData = lines.slice(1).map((line) => {
       const parts = line.trim().split(/\s+/);
+      const label = parts.slice(2).join(" ");
+      const detailedLabel = getProgramDisplayNameApple(label);
       return {
         pid: parts[0],
         status: parts[1],
-        label: parts.slice(2).join(" "), // Join remaining parts for service label
+        label: detailedLabel,
       };
     });
   } else if (platform === "linux") {
@@ -61,6 +67,61 @@ function parseCommandOutput(output) {
   }
 
   return JSON.stringify(parsedData); // Convert parsed data to JSON string
+}
+
+function getProgramDisplayNameApple(label) {
+  // Potential directories where .plist files could be located
+  const plistDirs = [
+    "/System/Library/LaunchAgents",
+    "/System/Library/LaunchDaemons",
+    "/Library/LaunchAgents",
+    "/Library/LaunchDaemons",
+    "/System/Library/Preferences",
+    "/Library/Preferences",
+  ];
+
+  // Try to locate the .plist file that matches the label
+  for (let dirPath of plistDirs) {
+    const plistPath = path.join(dirPath, `${label}.plist`);
+    if (fs.existsSync(plistPath)) {
+      try {
+        // Read and parse the .plist file
+        const plistData = fs.readFileSync(plistPath, "utf8");
+        const programMatch = plistData.match(
+          /<key>Program<\/key>\s*<string>(.*?)<\/string>/
+        );
+        const programArgsMatch = plistData.match(
+          /<key>ProgramArguments<\/key>\s*<array>\s*<string>(.*?)<\/string>/
+        );
+
+        let programPath = programMatch
+          ? programMatch[1]
+          : programArgsMatch
+          ? programArgsMatch[1]
+          : null;
+
+        if (programPath && fs.existsSync(programPath)) {
+          // Run mdls to get the display name
+          const result = execSync(
+            `mdls -name kMDItemDisplayName "${programPath}"`,
+            { encoding: "utf8" }
+          );
+          const displayNameMatch = result.match(
+            /kMDItemDisplayName\s*=\s*"(.*?)"/
+          );
+
+          if (displayNameMatch) {
+            return displayNameMatch[1] + " (" + label + ")";
+          }
+        }
+      } catch (error) {
+        console.error(`Error processing ${plistPath}:`, error);
+      }
+    }
+  }
+
+  // If the process fails, return the label
+  return label;
 }
 
 // Export the getOSCommand function so it can be used in other files (main.js)
