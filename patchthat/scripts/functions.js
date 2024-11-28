@@ -10,14 +10,42 @@ Returns the appropriate command to list services based on the current operating 
 function getOSCommand() {
   const platform = os.platform();
 
-  if (platform === "win32") {
-    return "tasklist";
-  } else if (platform === "darwin") {
-    return "launchctl list";
-    return "ps aux"; // If we want to list all processes instead
-  } else if (platform === "linux") {
+  if (platform === "win32") return "tasklist";
+  else if (platform === "darwin") return "launchctl list";
+  else if (platform === "linux")
     return "systemctl list-units --type=service --all --no-pager";
+}
+
+/*
+Function: loadNativeServiceBaseline
+Loads the baseline of native services for a given operating system.
+*/
+function loadNativeServiceBaseline(platform) {
+  const fs = require("fs");
+  const path = require("path");
+  try {
+    const baselineFilePath = path.join(
+      __dirname,
+      "baselines",
+      `${platform}_baseline.json`
+    );
+    const baselineData = fs.readFileSync(baselineFilePath, "utf-8");
+    return JSON.parse(baselineData);
+  } catch (error) {
+    console.error(`Error loading baseline for platform ${platform}:`, error);
+    return []; // Return an empty list if the file can't be loaded
   }
+}
+
+/*
+Function: isNativeService
+Checks if a service label is a native service based on the baseline for the current operating system.
+*/
+function isNativeService(label) {
+  const os = require("os");
+  const platform = os.platform();
+  const nativeServices = loadNativeServiceBaseline(platform); // Load baseline
+  return nativeServices.some((nativeService) => label.includes(nativeService));
 }
 
 /*
@@ -43,16 +71,23 @@ function parseCommandOutput(output) {
       };
     });
   } else if (platform === "darwin") {
-    parsedData = lines.slice(1).map((line) => {
-      const parts = line.trim().split(/\s+/);
-      const label = parts.slice(2).join(" ");
-      const detailedLabel = getProgramDisplayNameApple(label);
-      return {
-        pid: parts[0],
-        status: parts[1],
-        label: detailedLabel,
-      };
-    });
+    parsedData = lines
+      .slice(1) // Remove the header line
+      .filter((line) => {
+        const parts = line.trim().split(/\s+/);
+        const label = parts.slice(2).join(" ");
+        return !isNativeService(label); // Exclude native services
+      })
+      .map((line) => {
+        const parts = line.trim().split(/\s+/);
+        const label = parts.slice(2).join(" ");
+        const detailedLabel = getProgramDisplayNameApple(label);
+        return {
+          pid: parts[0],
+          status: parts[1],
+          label: detailedLabel,
+        };
+      });
   } else if (platform === "linux") {
     parsedData = lines.slice(1).map((line) => {
       const parts = line.trim().split(/\s+/);
@@ -69,6 +104,11 @@ function parseCommandOutput(output) {
   return JSON.stringify(parsedData); // Convert parsed data to JSON string
 }
 
+/*
+Function: getProgramDisplayNameApple
+Gets the display name of a program on macOS based on its label.
+TODO: This works for com.apple services, but not for third-party services.
+ */
 function getProgramDisplayNameApple(label) {
   // Potential directories where .plist files could be located
   const plistDirs = [

@@ -9,6 +9,8 @@ const { exec } = require("child_process");
 const path = require("path");
 const { getOSCommand, parseCommandOutput } = require("../scripts/functions");
 
+const openDevTools = false; // Set to true to open DevTools automatically
+
 // Create the main window for the application
 function createWindow() {
   const win = new BrowserWindow({
@@ -20,6 +22,9 @@ function createWindow() {
       contextIsolation: true, // Enable context isolation. Set to true for security reasons
     },
   });
+
+  // DevTools
+  if (openDevTools && !app.isPackaged) win.webContents.openDevTools();
 
   // Load the index.html file as the main window content
   win.loadFile("src/index.html");
@@ -33,11 +38,8 @@ ipcMain.handle("get-services", async () => {
   try {
     const stdout = await new Promise((resolve, reject) => {
       exec(command, (error, stdout, stderr) => {
-        if (error) {
-          reject(stderr);
-        } else {
-          resolve(stdout);
-        }
+        if (error) reject(stderr);
+        else resolve(stdout);
       });
     });
 

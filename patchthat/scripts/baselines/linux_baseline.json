@@ -1,0 +1,8 @@
+[
+  "systemd",
+  "dbus.service",
+  "sshd.service",
+  "network.service",
+  "firewalld.service",
+  "cron.service"
+]
