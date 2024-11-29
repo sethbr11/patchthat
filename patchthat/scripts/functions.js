@@ -10,7 +10,8 @@ Returns the appropriate command to list services based on the current operating 
 function getOSCommand() {
   const platform = os.platform();
 
-  if (platform === "win32") return "tasklist";
+  if (platform === "win32")
+    return "winget upgrade"; // Winget Upgrade will return a list of all applications that are currently outdated
   else if (platform === "darwin") return "launchctl list";
   else if (platform === "linux")
     return "systemctl list-units --type=service --all --no-pager";
@@ -60,16 +61,22 @@ function parseCommandOutput(output) {
   let parsedData;
 
   if (platform === "win32") {
-    parsedData = lines.slice(3).map((line) => {
-      const parts = line.trim().split(/\s+/);
-      return {
-        imageName: parts[0],
-        pid: parts[1],
-        sessionName: parts[2],
-        sessionNumber: parts[3],
-        memUsage: parts[4],
-      };
-    });
+    parsedData = lines
+      .slice(2)
+      .map((line) => {
+        // Split the line by whitespace
+        const parts = line.trim().split(/\s{2,}/); // Use two or more spaces as delimiter
+        if (parts.length < 5) return null; // Skip malformed lines
+
+        return {
+          name: parts[0], // Application name
+          id: parts[1], // Winget package ID
+          version: parts[2], // Installed version
+          available: parts[3], // Available version
+          source: parts[4], // Source (e.g., "winget")
+        };
+      })
+      .filter(Boolean); // Remove any null entries caused by malformed lines
   } else if (platform === "darwin") {
     parsedData = lines
       .slice(1) // Remove the header line

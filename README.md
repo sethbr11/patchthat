@@ -6,7 +6,7 @@ Welcome to PatchThat, the easy way to find out what your system is running and w
 
 ## Proof of Value
 
-Proof of Value tests can be found in the repository under [docs/PoVTests](docs/PoVTests). You can view the latest additions/test [here](docs/PoVTests/Test2-Oct292024.md).
+Proof of Value tests can be found in the repository under [docs/PoVTests](docs/PoVTests). You can view the latest additions/test [here](docs/PoVTests/Test3-Sep292024.md).
 
 ## Features
 
@@ -38,7 +38,7 @@ For installation via cloning the repository, follow the steps below:
 5. Run `npm install` to install dependencies for the project.
 6. Duplicate the _local_settings.json.base_ file located in the settings folder and rename the duplicate to _local_settings.json_.
 7. Run the program with `npm run start`, typed in the terminal.
-    - If you are trying to run on Linux and are getting errors, you may need to update permissions from chrome-sandbox as part of your electron dependencies.This can be done by running `sudo chown root:root /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox` followed by `sudo chmod 4755 /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox` (replacing "..." with your specific path). You can then check that it worked with `ls -l /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox`.
+   - If you are trying to run on Linux and are getting errors, you may need to update permissions from chrome-sandbox as part of your electron dependencies.This can be done by running `sudo chown root:root /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox` followed by `sudo chmod 4755 /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox` (replacing "..." with your specific path). You can then check that it worked with `ls -l /home/.../patchthat/patchthat/node_modules/electron/dist/chrome-sandbox`.
 
 To get around the MacOS protections while opening the installer, you will have to create your own certificate. The steps for creating your own are as follows:
 
@@ -49,10 +49,11 @@ To get around the MacOS protections while opening the installer, you will have t
 5. Download the dmg file for the app from the releases section. Run the dmg to install the app.
 6. Open the terminal and navigate to the Application folder where the downloaded app is saved. This should be in the very base directory and not the Application folder under your user directory.
 7. Run the following commands in the terminal:
-  - `xattr -cr patchthat.app` (removes all extended attributes, including metadata and Finder information, from the specified file or directory and its contents).
-  - `codesign --deep --force --sign "PatchThatAppCertificate" patchthat.app` (applies the certificate).
-8. Run the app as normal!
 
+- `xattr -cr patchthat.app` (removes all extended attributes, including metadata and Finder information, from the specified file or directory and its contents).
+- `codesign --deep --force --sign "PatchThatAppCertificate" patchthat.app` (applies the certificate).
+
+8. Run the app as normal!
 
 ## Usage
 
