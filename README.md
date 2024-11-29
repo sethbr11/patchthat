@@ -6,7 +6,7 @@ Welcome to PatchThat, the easy way to find out what your system is running and w
 
 ## Proof of Value
 
-Proof of Value tests can be found in the repository under [docs/PoVTests](docs/PoVTests). You can view the latest additions/test [here](docs/PoVTests/Test3-Sep292024.md).
+Proof of Value tests can be found in the repository under [docs/PoVTests](docs/PoVTests). You can view the latest additions/test [here](docs/PoVTests/Test3-Nov292024.md).
 
 ## Features
 
