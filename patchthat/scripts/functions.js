@@ -12,7 +12,8 @@ function getOSCommand() {
 
   if (platform === "win32")
     return "winget upgrade"; // Winget Upgrade will return a list of all applications that are currently outdated
-  else if (platform === "darwin") return "launchctl list";
+  else if (platform === "darwin")
+    return "launchctl list"; // Try 'brew outdated' as an alternative?
   else if (platform === "linux")
     return "systemctl list-units --type=service --all --no-pager";
 }
