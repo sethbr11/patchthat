@@ -13,7 +13,7 @@ Proof of Value tests can be found in the repository under [docs/PoVTests](docs/P
 The features implemented in this app are always growing and expanding, and should continue to do so as technology continues to evolve and as we attempt to give the clearest view possible of what is happening in your computer. This program is intended to work with all major operating systems (Windows, Mac, and Linux). Right now, we have these features implemented:
 
 - Application and service scanning that outputs the default terminal output of these commands (based on your OS):
-  - Windows: `tasklist`
+  - Windows: `winget upgrade`
   - Mac: `launchctl list`
   - Linux: `systemctl list-units --type=service --all --no-pager`
 - Output is formatted into JSON text to make for a cleaner display and help with further analysis in upcoming releases.
